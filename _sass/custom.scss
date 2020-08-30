@@ -36,20 +36,58 @@
 /* Prevent scroll on narrow devices */
 html,
 body {
+  font-family: 'Nanum Gothic', serif;
+  line-height: 1.8;
   overflow-x: hidden;
 }
 
 html {
-  font-family: "PT Serif", Georgia, "Times New Roman", serif;
+  font-family: 'Nanum Gothic', Georgia, "Times New Roman", serif;
 }
 
 h1, h2, h3, h4, h5, h6 {
-  font-family: "PT Sans", Helvetica, Arial, sans-serif;
+  font-family: 'Nanum Gothic', Helvetica, Arial, sans-serif;
   font-weight: 400;
   color: #313131;
   letter-spacing: -.025rem;
 }
 
+div {
+  article{
+    h2{
+      a{
+        font-family: 'Nanum Gothic', serif;
+      }
+    }
+  }
+}
+article{
+  div{
+    header{
+      h1{
+        font-family: 'Nanum Gothic', serif;
+      }
+    }
+  }
+}
+article{
+  div{
+    section{
+      h2{
+        font-family: 'Nanum Gothic', serif;
+      }
+    }
+  }
+}
+div{
+  article{
+    div{
+      a{
+        font-family: 'Nanum Gothic', serif;
+      }
+    }
+  }
+}
 
 /*
  * Wrapper
