@@ -5,7 +5,7 @@ tags:
 - singleton
 ---
 
-자바의 멀티쓰레드 환경에서 싱글톤을 구현하기 위해서 여러 방식이 제안되었는데, 그 방법들 몇 가지를 정리해본다.
+Several ways to implement singleton in Java.
 ## 1. Eager Initialization
 ```
 public class Foo {
@@ -16,7 +16,7 @@ public static Foo getInstance() {
     }
 }
 ```
-또는
+or
 ```
 public class Foo {
 private static Foo instance;
@@ -32,9 +32,8 @@ static {
 }
 ```
 
-이러한 방식에서는
-1. constructor와 멤버 변수를 private 으로 선언해 외부에서 인스턴스를 선언하지 못하게 한다.
-2. static 멤버 변수로서 선언 ( 또는 static block 내부에서 선언)함으로서, classLoader에 의해 클래스가 최초 로딩될 때 생성될 수 있도록 함으로 thread safe를 보장한다.
+1. Forbid to declare instance from outside, with declaring constuctor and member variable as private.
+2. With declaring instance as static (or declaring in static block), it guarantees thread safety, as instance is created on class load.
 
 ```
 // Classloader.java 1.8
@@ -60,9 +59,11 @@ protected Object getClassLoadingLock(String className) {
 }
 ```
 
-위와 같이 자바 클래스로더가 클래스 로딩시에 해당 클래스 이름으로 락을 걸고, static field는 로딩 시에 초기화되기 때문에 thread safety가 보장된다.
+As you can see above, java classloader locks class with it's name,  That is, it guarantees thread safety if instance is created on class load.
 
-위 방식의 단점은 로드되는 시점에 인스턴스를 생성하기 때문에, 싱글톤으로 선언된 클래스가 많아질수록 사용하기도 전에 생성되는 인스턴스가 많아져 부담이 될 수 있다는 것이다.
+Disadvantage of this trick is that it creates instance on class loading.
+That is, more singleton class is created, more instance will be allocated (even before it used).
+
 <br /> 
 
 ## 2. Lazy Initialization
@@ -80,7 +81,7 @@ public class Foo {
     }
 }
 ```
-또는
+or
 ```
 public class Foo {
 	
@@ -98,10 +99,9 @@ public class Foo {
 }
 ```
 
-위 방식에서는
-1.  constructor와 멤버 변수를 private 으로 선언해 외부에서 인스턴스를 선언하지 못하게 한다.
-2.  클래스가 로드되는 시점이 아닌 getInstance()를 호출한 시점에 인스턴스 생성이 이루어지기 때문에, Eager initialization 방식의 문제점이 해결 가능하다.
-3.  synchronized block을 사용하여 getInstance()에서 instance 선언하는 부분의 thread safety를 보장한다.
+1.  Forbid to declare instance from outside, with declaring constuctor and member variable as private.
+2.  It creates instance on getInstance() call, therefore it resolves "Class loadtime creation" on eager initialization.
+3.  It guarantees thread safety with synchronized block.
 
 ```
 // 1.8 Object.java
@@ -115,9 +115,12 @@ public final native void notify();
 }
 ```
 
-Java의 모든 객체는 monitor lock 을 가지고 있다. static synchronized로 선언된 메서드(또는 블록)에 접근할 때는 해당 클래스 객체(Foo.class)에 대해 lock을 획득해야 하므로 thread safety가 보장된다.
+Every object in Java has monitor lock.
+When a thread access to static synchronized method (or block), it requires class lock.
+Therefore, synchronized block above guarantees thread safety.
 
-위 방식의 단점은 매번 getInstance()를 할 때마다 synchronized 로 실행되므로 효율이 떨어진다는 것이다. 인스턴스가 생성되는 시점에는 하나의 쓰레드만 접근이 가능해야 하지만, 그 이후 매 getInstance() 요청 시에도 synchronized로 실행되는 것이 문제이다.  
+Disadvantage of this trick is that it requires class lock everytime we call getInstance().
+
 <br /> 
 ## 3. Doubly Checked Locking
 ```
@@ -139,9 +142,10 @@ public class Foo {
 }
 ```
 
-Lazy initialization 방법에서 getInstance()시에 매번 synchronized를 해야한다는 문제를 개선하고자 한 방법이다. 최초 instance 할당 시에는 synchronized block을 실행하되, 한번 instance가 할당된 이후로는 synchronized block을 타지 않도록 하려고 하였다.
-또 volatile 키워드로 consistency 를 보장하고 코드가 재배치되는 걸 막는다 (java 5 이상).
-링크 참고 : https://stackoverflow.com/questions/7855700/why-is-volatile-used-in-double-checked-locking  
+This trick resolves synchronized call issue in lazy initialization.
+It execute synchronized block on initial instance allocation, but once it is allocated it does not run synchronized block.
+Plus, it prevents code rearrangement with volatile keyword.
+reference : https://stackoverflow.com/questions/7855700/why-is-volatile-used-in-double-checked-locking  
 <br /> 
 ## 4. Enum
 ```
@@ -150,8 +154,10 @@ public enum Foo {
 }
 ```
 
-enum은 열거형으로 초기화가 컴파일 타임에 결정되고, 단 하나의 인스턴스가 생기도록 보장된다. (하지만 enum 내부에 선언되는 메서드는 구현 방식에 따라 thread safe 하지 않을 수도 있다)
-방식은 깔끔하지만 enum은 컴파일 타임에 초기화가 진행되기 때문에 특정 상황에서는 활용하기 어려울 수 있다.  
+Enum guarantees compile-time initialization, therefore it guarantees single instance creation.
+(But it does not guarantees method's thread safety)
+Simplest, but as it initialized on compile time it has limited use. 
+
 <br /> 
 ## 5. LazyHolder
 ```
@@ -166,10 +172,11 @@ public class Foo {
 }
 ```
 
-1. constructor와 멤버 변수를 private 으로 선언해 외부에서 인스턴스를 선언하지 못하게 한다.
-2. Foo에는 FooHolder의 인스턴스가 없기 때문에, Foo 클래스의 로드 시점에는 FooHolder 가 초기화되지 않는다 . getInstance() 로 요청을 하면 그때 FooHolder를 로드하는데, 1.2 의 이유와 마찬가지로 thread safety를 보장한다.
+1. Forbid to declare instance from outside, with declaring constuctor and member variable as private.
+2. As there is no FooHolder instance in Foo, FooHolder is not initialized on Foo's load time. With calling getInstance(), classloader loads FooHolder, and it guarantees thread safety (like  eager initialization)
 
-정리하면, FooHolder를 사용함으로서 1번 방식의 문제를 해결하고 thread safety를 보장하는 방법이다.  
+In short, it resolves  "Class loadtime creation" on eager initialization with FooHolder, and guarantees thread safety.
+
 <br /> 
 ## References
 http://happinessoncode.com/2017/10/04/java-intrinsic-lock/
