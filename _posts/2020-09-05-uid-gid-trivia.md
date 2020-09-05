@@ -1,5 +1,5 @@
 ---
-title: uid/gid trivia
+title: UID/GID trivia
 tags:
 - osx
 - system
