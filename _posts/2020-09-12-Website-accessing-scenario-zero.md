@@ -1,5 +1,8 @@
 ---
 title: What happens when we go to a website - 0. Acquire my IP
+tags:
+- network
+- web
 ---
 
 "Host1" under "Router1" tries to acquire IP.

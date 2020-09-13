@@ -1,5 +1,8 @@
 ---
 title: What happens when we go to a website - 1. Acquire website IP
+tags:
+- network
+- web
 ---
 
 First, browser must know actual ip address of domain. <br>
