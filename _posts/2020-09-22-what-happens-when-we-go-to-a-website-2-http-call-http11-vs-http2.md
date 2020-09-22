@@ -1,5 +1,9 @@
 ---
 title: What happens when we go to a website - 2. Http Call (http1.1 vs http2)
+tags:
+- web
+- http
+- http2
 ---
 
 Now browser requests for the webpage with given url.
