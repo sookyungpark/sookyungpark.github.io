@@ -13,7 +13,12 @@ tags:
 ```
 org.codehaus.mojo.sonar-maven-plugin
 ```
-2. Write pipeline script for [jenkins pipeline](https://www.jenkins.io/doc/book/pipeline/syntax/)  <br>
+2. Add jacoco plugin for test coverage. With maven or gradle, setup with:
+```
+org.jacoco:jacoco-maven-plugin
+```
+
+3. Write pipeline script for [jenkins pipeline](https://www.jenkins.io/doc/book/pipeline/syntax/)  <br>
 I'll explain later on "Jenkins setting" section. <br>
 
 ### Jenkins
