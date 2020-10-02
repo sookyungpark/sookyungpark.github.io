@@ -66,13 +66,13 @@ That is, To obtain a population parameter that maximizes the likelihood that the
 When Probability variable set D = (X1,X2, ...when there is, Xn) and its probability mass function f
 and  X1, X2, ..., if the Xn is independent and has the same probability distribution, then the probability L is
 
-![]({{ '1_ElcXcCrDdWpnPu2tlzD5Fg.png' | relative_url }})
+![]({{ '/images/1_ElcXcCrDdWpnPu2tlzD5Fg.png' | relative_url }})
 
 [Coin flipping example](https://wikidocs.net/7679)
 
 <hr>
 ## 1. Linear Regression Analysis
-![]({{ '스크린샷 2020-09-28 오전 12.39.53.png' | relative_url }})
+![]({{ '/images/스크린샷 2020-09-28 오전 12.39.53.png' | relative_url }})
 ```
 y= wTx + a + ε
 ```
@@ -91,7 +91,7 @@ We go through the process of solving this again in the way of w.
 
 <hr>
 ## 2. Logistic Regression
-![]({{ '스크린샷 2020-09-28 오전 12.40.01.png' | relative_url }})
+![]({{ '/images/스크린샷 2020-09-28 오전 12.40.01.png' | relative_url }})
 ```
 To classify results using linear combinations of independent variables
 ```
