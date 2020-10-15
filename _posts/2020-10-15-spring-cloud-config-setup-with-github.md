@@ -10,7 +10,6 @@ Note that filename should be {serviceName}-{phase}.yaml if you want to use it wi
 foo:
     bar: false
 ```
-<br>
 
 Then, create spring config server project with the dependency:
 ```
@@ -19,7 +18,6 @@ Then, create spring config server project with the dependency:
     <artifactId>spring-cloud-config-server</artifactId>
 </dependency>
 ```
-<br>
 
 Then you can see the property with {serverUrl}/{serviceName}/{phase}:
 ```json
@@ -70,7 +68,7 @@ For the first method, additional setup is required to refresh periodically. Also
 For the second method, additional setup is required like rabbitmq. <br>
 
 I found another way in [this blog](https://dlsrb6342.github.io/2019/06/28/spring-cloud-config-Auto-Refresh/).<br>
-It is almost same with the existing [ConfigClientWatch](https://github.com/spring-cloud/spring-cloud-config/blob/master/spring-cloud-config-client/src/main/java/org/springframework/cloud/config/client/ConfigClientWatch.java), but instead of using "config.client.state", it uses "config.client.version", which contains git repository's HEAD checksum. <br> That is, when something is committed to repository, it detects the difference and refreshes properties. <br>
+It is almost same with the existing [ConfigClientWatch](https://github.com/spring-cloud/spring-cloud-config/blob/master/spring-cloud-config-client/src/main/java/org/springframework/cloud/config/client/ConfigClientWatch.java), but instead of using "config.client.state", it uses "config.client.version", which contains git repository's HEAD checksum. <br> That is, when something is committed to repository, it detects the difference and refreshes properties. 
 
 <hr>
 # References
