@@ -5,12 +5,17 @@ title: About
 
 <hr>
 <div class="page">
+	<img src="/images/my-photo.png" style=" border-radius: 50%; width:200px; height:200px;" />
+	<br>
+	<div style="text-align: center;">
 <p> Currently working as a server-side software engineer in Kakao Corp. <br>
 3 and a half years of experience in LINE plus as a software engineer. <br>
 A year of experience in Google Korea TV team as Test Engineer. <br>
 Majored in computer science in Yonsei University in Korea, Seoul. <br>
 Publising cartoon about engineer's life on instagram. <br>
+Interested in reactive programming and quantum computing. <br>
 </p>
+</div>
 </div>
 
 <p class="social-icons">
